@@ -1,5 +1,6 @@
 import time
 import random
+import json
 import telebot
 from datetime import datetime, timedelta
 from telebot.types import InlineKeyboardButton, InlineKeyboardMarkup
@@ -11,8 +12,16 @@ chat_id = '-1002003028428'
 bot = telebot.TeleBot(token=api_key)
 
 def ALERT_GALE1():
-    current_time = datetime.now() + timedelta(hours=3, minutes=1)  # Adiciona 3 horas ao fuso horário
-    formatted_time = current_time.strftime('%H:%M:%S')
+    current_time = datetime.now() - timedelta(hours=6)  # Subtrai 6 horas do fuso horário
+    h = current_time.hour
+    m = current_time.minute + 1
+    s = current_time.second
+    if h <= 9:
+        h = f'0{h}'
+    if m <= 9:
+        m = f'0{m}'
+    if s <= 9:
+        s = f'0{s}'
     message_id = bot.send_message(chat_id=chat_id, text=f'''
 🔍 Possível Entrada Detectada''').message_id
     bd.message_ids1 = message_id
@@ -36,7 +45,7 @@ def button_link():
     return markup
 
 while True:
-    current_time = datetime.now() + timedelta(hours=3)  # Adiciona 3 horas ao fuso horário
+    current_time = datetime.now() - timedelta(hours=6)  # Subtrai 6 horas do fuso horário
     h = current_time.hour
     m = current_time.minute + 4
     s = current_time.second
@@ -50,7 +59,7 @@ while True:
 
     minas_configuracoes = [3, 4]
     for minas in minas_configuracoes:
-       cores = ['⭐', '🟦', '🟦', '🟦', '🟦', '⭐', '🟦', '🟦', '🟦', '🟦', '⭐', '🟦', '🟦', '🟦', '🟦', '⭐', '🟦', '🟦', '🟦', '🟦', '⭐', '🟦', '🟦', '⭐', '🟦']
+        cores = ['⭐', '🟦', '🟦', '🟦', '🟦', '⭐', '🟦', '🟦', '🟦', '🟦', '⭐', '🟦', '🟦', '🟦', '🟦', '⭐', '🟦', '🟦', '🟦', '🟦', '⭐', '🟦', '🟦', '⭐', '🟦']
 
     ALERT_GALE1()  
 
@@ -61,7 +70,7 @@ while True:
 🕛 Válido até: {h}:{m}
 ✅ Apostar 3% da sua BANCA                                                    
 💣 Minas: {minas}
-⏰ Valido Durante: 4 minutos
+⏰ Válido Durante: 4 minutos
 🔁 Nº de entradas: 3
 
 {' '.join(sample[:5])}
@@ -76,6 +85,6 @@ while True:
     time.sleep(240)
 
     bot.edit_message_text(f'''
-✅Sinal finalizado às: {h}:{m}✅
+✅ Sinal finalizado às: {h}:{m} ✅
 Bateu a meta? Volte AMANHÃ!
     ''', dados.chat.id, dados.message_id)
