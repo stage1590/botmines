@@ -68,4 +68,4 @@ Bateu a meta? Volte AMANHÃ!
 ''', dados.chat.id, dados.message_id)
         DELETE_GALE1()
 
-    time.sleep(60)
+    time.sleep(90)
