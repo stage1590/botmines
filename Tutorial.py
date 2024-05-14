@@ -1,10 +1,10 @@
 import time
 import random
-import json
-import telebot
-from datetime import datetime, timedelta
-from telebot.types import InlineKeyboardButton, InlineKeyboardMarkup
+from datetime import datetime
 import bd
+
+import telebot
+from telebot.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 api_key = '6998203922:AAE004UkzJmLyWpldDVmximlfYR6TG1A_kE'
 chat_id = '-1002003028428'
@@ -12,24 +12,16 @@ chat_id = '-1002003028428'
 bot = telebot.TeleBot(token=api_key)
 
 def ALERT_GALE1():
-    current_time = datetime.now() - timedelta(hours=6)  # Subtrai 6 horas do fuso horário
-    h = current_time.hour
-    m = current_time.minute + 1
-    s = current_time.second
-    if h <= 9:
-        h = f'0{h}'
-    if m <= 9:
-        m = f'0{m}'
-    if s <= 9:
-        s = f'0{s}'
+    current_time = datetime.now()
+    formatted_time = current_time.strftime('%H:%M:%S')
     message_id = bot.send_message(chat_id=chat_id, text=f'''
-🔍 Possível Entrada Detectada''').message_id
+🔍 Possivel Entrada Detectada''').message_id
     bd.message_ids1 = message_id
     time.sleep(15)
     bd.message_delete1 = True
 
 def DELETE_GALE1():
-    if bd.message_delete1 == True:
+    if bd.message_delete1:
         bot.delete_message(chat_id=chat_id, message_id=bd.message_ids1)
         bd.message_delete1 = False
 
@@ -45,21 +37,13 @@ def button_link():
     return markup
 
 while True:
-    current_time = datetime.now() - timedelta(hours=6)  # Subtrai 6 horas do fuso horário
-    h = current_time.hour
-    m = current_time.minute + 4
-    s = current_time.second
-    if h <= 9:
-        h = f'0{h}'
-    if m <= 9:
-        m = f'0{m}'
-    if s <= 9:
-        s = f'0{s}'
-    print(f'{h}:{m}:{s}')
+    current_time = datetime.now()
+    formatted_time = current_time.strftime('%H:%M:%S')
+    print(formatted_time)
 
     minas_configuracoes = [3, 4]
     for minas in minas_configuracoes:
-        cores = ['⭐', '🟦', '🟦', '🟦', '🟦', '⭐', '🟦', '🟦', '🟦', '🟦', '⭐', '🟦', '🟦', '🟦', '🟦', '⭐', '🟦', '🟦', '🟦', '🟦', '⭐', '🟦', '🟦', '⭐', '🟦']
+       cores = ['⭐', '🟦', '🟦', '🟦', '🟦', '⭐', '🟦', '🟦', '🟦', '🟦', '⭐', '🟦', '🟦', '🟦', '🟦', '⭐', '🟦', '🟦', '🟦', '🟦', '⭐', '🟦', '🟦', '⭐', '🟦']
 
     ALERT_GALE1()  
 
@@ -67,10 +51,10 @@ while True:
 
     sample = random.sample(cores, k=25)
     message_text = f'''
-🕛 Válido até: {h}:{m}
+🕛 Válido até: {formatted_time}
 ✅ Apostar 3% da sua BANCA                                                    
 💣 Minas: {minas}
-⏰ Válido Durante: 4 minutos
+⏰ Valido Durante: 4 minutos
 🔁 Nº de entradas: 3
 
 {' '.join(sample[:5])}
@@ -85,6 +69,6 @@ while True:
     time.sleep(240)
 
     bot.edit_message_text(f'''
-✅ Sinal finalizado às: {h}:{m} ✅
+✅Sinal finalizado às: {formatted_time}✅
 Bateu a meta? Volte AMANHÃ!
     ''', dados.chat.id, dados.message_id)
