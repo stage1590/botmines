@@ -1,10 +1,10 @@
 import time
 import random
-from datetime import datetime
-import bd
-
+import json
 import telebot
+from datetime import datetime, timedelta
 from telebot.types import InlineKeyboardButton, InlineKeyboardMarkup
+import bd
 
 api_key = '6998203922:AAE004UkzJmLyWpldDVmximlfYR6TG1A_kE'
 chat_id = '-1002003028428'
@@ -12,16 +12,13 @@ chat_id = '-1002003028428'
 bot = telebot.TeleBot(token=api_key)
 
 def ALERT_GALE1():
-    current_time = datetime.now()
-    formatted_time = current_time.strftime('%H:%M:%S')
-    message_id = bot.send_message(chat_id=chat_id, text=f'''
-🔍 Possivel Entrada Detectada''').message_id
+    message_id = bot.send_message(chat_id=chat_id, text='🔍 Possível Entrada Detectada').message_id
     bd.message_ids1 = message_id
     time.sleep(15)
     bd.message_delete1 = True
 
 def DELETE_GALE1():
-    if bd.message_delete1:
+    if bd.message_delete1 == True:
         bot.delete_message(chat_id=chat_id, message_id=bd.message_ids1)
         bd.message_delete1 = False
 
@@ -37,24 +34,24 @@ def button_link():
     return markup
 
 while True:
-    current_time = datetime.now()
-    formatted_time = current_time.strftime('%H:%M:%S')
-    print(formatted_time)
+    current_time = datetime.now().strftime('%H:%M')
+    print(current_time)
 
     minas_configuracoes = [3, 4]
+    cores = ['💎', '⬛️', '⬛️', '⬛️', '⬛️', '💎', '⬛️', '⬛️', '⬛️', '⬛️', '💎', '⬛️', '⬛️', '⬛️', '⬛️', '💎', '⬛️', '⬛️', '⬛️', '⬛️', '💎', '⬛️', '⬛️', '💎', '⬛️']
+
     for minas in minas_configuracoes:
-       cores = ['⭐', '🟦', '🟦', '🟦', '🟦', '⭐', '🟦', '🟦', '🟦', '🟦', '⭐', '🟦', '🟦', '🟦', '🟦', '⭐', '🟦', '🟦', '🟦', '🟦', '⭐', '🟦', '🟦', '⭐', '🟦']
-
-    ALERT_GALE1()  
-
-    DELETE_GALE1()  
-
-    sample = random.sample(cores, k=25)
-    message_text = f'''
-🕛 Válido até: {formatted_time}
+        ALERT_GALE1()
+        current_time_dt = datetime.now()
+        future_time_dt = current_time_dt + timedelta(minutes=4)
+        future_time_str = future_time_dt.strftime('%H:%M')
+        sample = random.sample(cores, k=25)
+        message_text = f'''
+❗️ SINAIS REI_DO_LUCRO777 ❗️
+🕛 Válido até: {future_time_str}
 ✅ Apostar 3% da sua BANCA                                                    
 💣 Minas: {minas}
-⏰ Valido Durante: 4 minutos
+⏰ Válido durante: 4 minutos
 🔁 Nº de entradas: 3
 
 {' '.join(sample[:5])}
@@ -63,12 +60,12 @@ while True:
 {' '.join(sample[15:20])}
 {' '.join(sample[20:])}
 '''
-
-    dados = bot.send_message(chat_id=chat_id, text=message_text, reply_markup=button_link())
-
-    time.sleep(240)
-
-    bot.edit_message_text(f'''
-✅Sinal finalizado às: {formatted_time}✅
+        dados = bot.send_message(chat_id=chat_id, text=message_text, reply_markup=button_link())
+        time.sleep(240)
+        bot.edit_message_text(f'''
+✅ Green ✅ Sinal finalizado às: {future_time_str}
 Bateu a meta? Volte AMANHÃ!
-    ''', dados.chat.id, dados.message_id)
+''', dados.chat.id, dados.message_id)
+        DELETE_GALE1()
+
+    time.sleep(60)
